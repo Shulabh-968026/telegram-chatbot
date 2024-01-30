@@ -1,7 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-import util
+import os
+import requests
+from dotenv import load_dotenv
+from typing import Final
+
+load_dotenv()
+TOKEN: Final = os.getenv("TOKEN")
+CHAT_ID: Final = os.getenv("CHAT_ID")
+
+
+def chatbot(message: str):
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}&text={message}"
+    requests.get(url)
+
 
 # create a root window
 root = tk.Tk()
@@ -57,7 +70,7 @@ def send_message():
         messagebox.showwarning("Warning", "Please enter a message")
         return
     else:
-        util.chatbot(message)
+        chatbot(message)
         messagebox.showinfo("Success", "Message sent successfully")
         clear_message()
 
